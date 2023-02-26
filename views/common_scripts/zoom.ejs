@@ -1,0 +1,38 @@
+<script>
+    zoomset()
+    function zoomset() {
+      console.log(1)
+      if (localStorage.getItem("zoom")) {
+        console.log(parseInt(localStorage.getItem("zoom")))
+        document.body.style.zoom = localStorage.getItem("zoom") + "%";
+      }
+    }
+    function zoom() {
+      var zoom = 100;
+      if (localStorage.getItem("zoom")) {
+        zoom = parseInt(localStorage.getItem("zoom")) + 10;
+        console.log(zoom)
+        document.body.style.zoom = zoom + "%"
+        localStorage.setItem("zoom", zoom)
+      }
+      else {
+        document.body.style.zoom = "110%"
+        localStorage.setItem("zoom", 110)
+      }
+
+    }
+    function zoomout() {
+      var zoom = 100;
+      if (localStorage.getItem("zoom")) {
+        zoom = parseInt(localStorage.getItem("zoom")) - 10;
+        console.log(zoom)
+        document.body.style.zoom = zoom + "%"
+        localStorage.setItem("zoom", zoom)
+      }
+      else {
+        document.body.style.zoom = "90%"
+        localStorage.setItem("zoom", 90)
+      }
+
+    } 
+  </script>

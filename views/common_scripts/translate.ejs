@@ -1,0 +1,33 @@
+<style>
+	iframe.goog-te-banner-frame {
+		display: none;
+	}
+	
+	.goog-te-gadget-simple{
+		border: 0px;
+		background: transparent;
+	}
+
+	.goog-te-gadget-icon {
+		display: none;
+	}
+	
+</style>
+
+<div id="google_translate_element"></div>
+
+<script type="text/javascript">
+	function googleTranslateElementInit() {
+		new google.translate.TranslateElement(
+			{
+				pageLanguage: 'hi',
+				includedLanguages: 'en,hi,mr,bn,bh,gu,ks,ml,ne,te,ur,kn,sd,sa,pa,as',
+				layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+			},
+			'google_translate_element'
+		);
+	}
+</script>
+
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+</script>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Dashboard</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  *
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <%- include('../common_scripts/zoom')%>
+    <%- include('../common_scripts/analytics')%>
+      <%- include('../common_scripts/chatbot')%>
+
+        <!-- ======= Header ======= -->
+        <!-- ======= Header ======= -->
+        <header id="header" class="header fixed-top d-flex align-items-center">
+
+          <div class="d-flex align-items-center justify-content-between">
+            <a href="/Dashboard" class="logo d-flex align-items-center">
+              <img src="assets/img/logo.png" alt="">
+              <!-- <span class="d-block">Yukti</span> -->
+            </a>
+            <i class="bi bi-list toggle-sidebar-btn"></i>
+          </div><!-- End Logo -->
+
+
+
+          <nav class="header-nav ms-auto">
+            <ul class="d-flex align-items-center">
+
+              <li class="nav-item dropdown">
+
+                <a class="nav-link nav-icon" style="cursor:pointer" onclick="zoom()">
+                  A+
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link nav-icon" style="cursor:pointer" onclick="zoomout()">
+                  A-
+                </a>
+
+
+              </li>
+              <li class="nav-item dropdown pe-3">
+
+                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                  <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+                  <span class="d-none d-md-block dropdown-toggle ps-2">
+                    <%=userData.idToken.payload.name%>
+                  </span>
+                </a><!-- End Profile Iamge Icon -->
+
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                  <li class="dropdown-header">
+                    <h6>
+                      <%=userData.idToken.payload.name%>
+                    </h6>
+
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+
+                  <li>
+                    <a class="dropdown-item d-flex align-items-center" href="">
+                      <i class="bi bi-person"></i>
+                      <span>My Profile</span>
+                    </a>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+
+                  <li>
+                    <a class="dropdown-item d-flex align-items-center" href="/Logout">
+                      <i class="bi bi-box-arrow-right"></i>
+                      <span>Sign Out</span>
+                    </a>
+                  </li>
+
+                </ul><!-- End Profile Dropdown Items -->
+              </li><!-- End Profile Nav -->
+
+            </ul>
+          </nav><!-- End Icons Navigation -->
+
+        </header><!-- End Header -->
+
+        <!-- ======= Sidebar ======= -->
+        <aside id="sidebar" class="sidebar">
+
+          <ul class="sidebar-nav" id="sidebar-nav">
+
+            <li class="nav-item">
+              <a class="nav-link collapsed" href="/Dashboard">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+              </a>
+            </li><!-- End Dashboard Nav -->
+
+            <li class="nav-item">
+              <a class="nav-link" href="/LodgeComplaint">
+                <i class="bi bi-box-arrow-in-right"></i>
+                <span>Lodge Complaint</span>
+              </a>
+            </li><!-- End Login Page Nav -->
+            <li class="nav-item">
+              <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-menu-button-wide"></i><span>My Account</span><i class="bi bi-chevron-down ms-auto"></i>
+              </a>
+              <ul id="components-nav" class="nav-content collapse show " data-bs-parent="#sidebar-nav">
+                <li>
+                  <a href="/ViewProfile">
+                    <i class="bi bi-circle"></i><span>View Profile</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="/EditUserProfile">
+                    <i class="bi bi-circle"></i><span>Edit Profile</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="/ChangePassword">
+                    <i class="bi bi-circle"></i><span>Change Password</span>
+                  </a>
+                </li>
+
+
+              </ul>
+            <li class="nav-item">
+              <a class="nav-link collapsed" href="#">
+                <i class="bi bi-translate"></i>
+                <%- include('../common_scripts/translate')%>
+                  <button class="btn btn-primary btn-sm" onclick="clearCookie()">original</button>
+                  <script>
+                    function clearCookie() {
+                      document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                      location.reload();
+                    }
+                  </script>
+              </a>
+            </li>
+            </li><!-- End Components Nav -->
+          </ul>
+
+        </aside><!-- End Sidebar-->
+
+        <main id="main" class="main">
+
+          <div class="pagetitle">
+            <h1>Dashboard</h1>
+            <nav>
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active">Lodge Complaint</li>
+              </ol>
+            </nav>
+          </div><!-- End Page Title -->
+
+          <section class="section">
+
+
+            <div class="iconslist">
+              <div class="icon">
+                <a href="/ComplaintRegistration?ministry=Financial Services (Banking Division)">
+                  <i> <img src="assets/img/deabd.png" alt=""></i>
+                  <div class="card-title" style="margin-left:10px; margin-right:10px;">Financial Services (Banking
+                    Division)</div>
+                </a>
+              </div>
+              <div class="icon">
+                <a href="/ComplaintRegistration?ministry=Labour and Employment">
+                  <i> <img src="assets/img/molbr.png" alt=""></i>
+                  <div class="card-title" style="margin-left:10px; margin-right:10px;">Labour and Employment</div>
+                </a>
+              </div>
+              <div class="icon">
+                <a href="/ComplaintRegistration?ministry=Central Board of Direct Taxes (Income Tax)">
+                  <i> <img src="assets/img/cbodt.png" alt=""></i>
+                  <div class="card-title" style="margin-left:10px; margin-right:10px;">Central Board of Direct Taxes
+                    (Income Tax)</div>
+                </a>
+              </div>
+              <div class="icon">
+                <a href="/ComplaintRegistration?ministry=Posts">
+                  <i> <img src="assets/img/dpost.png" alt=""></i>
+                  <div class="card-title" style="margin-left:10px; margin-right:10px;">Posts</div>
+                </a>
+              </div>
+              <div class="icon">
+                <a href="/ComplaintRegistration?ministry=Telecommunications">
+                  <i> <img src="assets/img/dotel.png" alt=""></i>
+                  <div class="card-title" style="margin-left:10px; margin-right:10px;">Telecommunications</div>
+                </a>
+              </div>
+              <div class="icon">
+                <a href="/ComplaintRegistration?ministry=Home Affairs">
+                  <i> <img src="assets/img/minha.png" alt=""></i>
+                  <div class="card-title" style="margin-left:10px; margin-right:10px;">Home Affairs</div>
+                </a>
+              </div>
+              <div class="icon">
+                <a href="/ComplaintRegistration?ministry=Personnel and Training">
+                  <i> <img src="assets/img/dourd.png" alt=""></i>
+                  <div class="card-title" style="margin-left:10px; margin-right:10px;">Personnel and Training</div>
+                </a>
+              </div>
+              <div class="icon">
+                <a href="/ComplaintRegistration?ministry=Health & Family Welfare">
+                  <i> <img src="assets/img/dopat.png" alt=""></i>
+                  <div class="card-title" style="margin-left:10px; margin-right:10px;">Health & Family Welfare</div>
+                </a>
+              </div>
+              <div class="icon">
+                <a href="/ComplaintRegistration?ministry=Financial Services (Insurance Division)">
+                  <i> <img src="assets/img/dhlth.png" alt=""></i>
+                  <div class="card-title" style="margin-left:10px; margin-right:10px;">Financial Services (Insurance
+                    Division)</div>
+                </a>
+              </div>
+              <div class="icon">
+                <a href="/ComplaintRegistration?ministry=Housing and Urban Affairs">
+                  <i> <img src="assets/img/deaid.png" alt=""></i>
+                  <div class="card-title" style="margin-left:10px; margin-right:10px;">Housing and Urban Affairs</div>
+                </a>
+              </div>
+
+            </div>
+
+          </section>
+
+        </main><!-- End #main -->
+
+
+
+        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+
+        <!-- Vendor JS Files -->
+        <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+        <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/vendor/chart.js/chart.min.js"></script>
+        <script src="assets/vendor/echarts/echarts.min.js"></script>
+        <script src="assets/vendor/quill/quill.min.js"></script>
+        <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+        <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+        <script src="assets/vendor/php-email-form/validate.js"></script>
+
+        <!-- Template Main JS File -->
+        <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>

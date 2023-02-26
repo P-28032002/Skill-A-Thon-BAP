@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Complaint Page</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <%- include('../common_scripts/analytics')%>
+
+
+    <header id="header" class="header fixed-top d-flex align-items-center">
+
+      <div class="d-flex align-items-center justify-content-between">
+        <a href="/Dashboard" class="logo d-flex align-items-center">
+          <img src="assets/img/logo.png" alt="">
+          <!-- <span class="d-none d-lg-block">Yukti</span> -->
+        </a>
+        <i class="bi bi-list toggle-sidebar-btn"></i>
+      </div><!-- End Logo -->
+
+
+
+      <nav class="header-nav ms-auto">
+        <ul class="d-flex align-items-center">
+          <li class="nav-item dropdown pe-3">
+
+            <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+              <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+              <span class="d-none d-md-block dropdown-toggle ps-2">
+                <%=UserData.idToken.payload.name%>
+              </span>
+            </a><!-- End Profile Iamge Icon -->
+
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+              <li class="dropdown-header">
+                <h6>
+                  <%=UserData.idToken.payload.name%>
+                </h6>
+
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="">
+                  <i class="bi bi-person"></i>
+                  <span>My Profile</span>
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="/Logout">
+                  <i class="bi bi-box-arrow-right"></i>
+                  <span>Sign Out</span>
+                </a>
+              </li>
+
+            </ul><!-- End Profile Dropdown Items -->
+          </li><!-- End Profile Nav -->
+
+        </ul>
+      </nav><!-- End Icons Navigation -->
+
+    </header><!-- End Header -->
+
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar">
+
+      <ul class="sidebar-nav" id="sidebar-nav">
+
+        <li class="nav-item">
+          <a class="nav-link" href="/Desk1Dashboard">
+            <i class="bi bi-grid"></i>
+            <span>Dashboard</span>
+          </a>
+        </li><!-- End Dashboard Nav -->
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="/ChangePassword">
+            <i class="bi bi-file-earmark-lock"></i>
+            <span>Change Password</span>
+          </a>
+        </li><!-- End Error 404 Page Nav -->
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="#">
+            <i class="bi bi-translate"></i>
+            <%- include('../common_scripts/translate')%>
+              <button class="btn btn-primary btn-sm" onclick="clearCookie()">original</button>
+              <script>
+                function clearCookie() {
+                  document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                  location.reload();
+                }
+              </script>
+          </a>
+        </li>
+
+      </ul>
+
+    </aside><!-- End Sidebar-->
+
+
+    <main id="main" class="main">
+
+      <div class="pagetitle">
+        <h1>Dashboard</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/Desk1Dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item active">View Complaint</li>
+          </ol>
+        </nav>
+      </div><!-- End Page Title -->
+
+      <section class="section">
+        <div class="row">
+          <div class="col-lg-6">
+
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Complaint Form</h5>
+
+                <!-- General Form Elements -->
+                <form>
+                  <div class="row mb-3">
+                    <label for="inputText" class="col-sm-3 ">Name</label>
+                    <div class="col-sm-9">
+                      <%=EndUserData.Name%>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="inputText" class="col-sm-3 ">Similarity</label>
+                    <div class="col-sm-9">
+                      <span class="badge <%=complaint.percentage>=70?'bg-danger':complaint.percentage>=40?'bg-warning':'bg-success'%>">
+                        <%=complaint.percentage>=70?'Repeated':complaint.percentage>=40?'Normal Similarity':'No Similarity'%>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="inputText" class="col-sm-3 ">Gender</label>
+                    <div class="col-sm-9">
+                      <%=EndUserData.Gender%>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="inputText" class="col-sm-3 ">Age</label>
+                    <div class="col-sm-9">
+                      <%=EndUserData.Age%>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="inputText" class="col-sm-3 ">Address</label>
+                    <div class="col-sm-9">
+                      <%=EndUserData.Address%>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="inputText" class="col-sm-3 ">City</label>
+                    <div class="col-sm-9">
+                      <%=EndUserData.City%>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="inputText" class="col-sm-3 ">State</label>
+                    <div class="col-sm-9">
+                      <%=EndUserData.State%>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="inputText" class="col-sm-3 ">Mobile</label>
+                    <div class="col-sm-9">
+                      <%=EndUserData.Phone%>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="inputText" class="col-sm-3 ">Complaint type</label>
+                    <div class="col-sm-9">
+                      <%=complaint.type%>
+                    </div>
+                  </div>
+                  <%const dateObject=new Date(complaint.Time["_seconds"]*1000)%>
+                    <%const date=dateObject.getDate();%>
+                      <%const month=dateObject.getMonth() + 1;%>
+                        <%const year=dateObject.getFullYear();%>
+                          <div class="row mb-3">
+                            <label for="inputText" class="col-sm-3 ">Date</label>
+                            <div class="col-sm-9">
+                              <%=`${date}-${month}-${year}`%>
+                            </div>
+                          </div>
+                          <div class="row mb-3">
+                            <label for="inputPassword" class="col-sm-3">Complaint Body</label>
+                            <div class="col-sm-9" style="text-align: justify;">
+                              <%=complaint.ComplaintBody%>
+                            </div>
+                          </div>
+                          <div class="row mb-3">
+                            <label for="inputPassword" class="col-sm-3 ">Complaint Summary</label>
+                            <div class="col-sm-9">
+                              <textarea type="text" style="text-align: justify;" id="summary" name="complaint_summary" class="form-control"
+                                rows="4"><%=complaint.ComplaintSummary%></textarea>
+                              <a href="/UpdateSummary" class="btn btn-primary mt-2" id="update-summary">Update Summary</a>
+                            </div>
+                          </div>
+                          <div class="row mb-3 mt-0">
+                            <label for="inputPassword" class="col-sm-3 "></label>
+                            <div class="col-sm-9">
+                              <a href="/ViewImage?url=https://complaint-bucket-sih.s3.ap-south-1.amazonaws.com/<%=cid%>.jpg">View
+                                Document</a>
+                            </div>
+                          </div>
+                </form><!-- End General Form Elements -->
+                <form action="/Escalate" method="post">
+                  <input name="cid" value="<%=complaint.id%>" hidden>
+                  <div class="row mb-3">
+                    <label class="col-sm-3 col-form-label">Escalate to</label>
+                    <div class="col-sm-6">
+                      <select name="type" class="form-select" aria-label="Default select example" required>
+                        <option selected value=""> Select authority level</option>
+                        <%for(var i=0;i< Escalate.length;i++){%>
+                          <option value="<%=Escalate[i]%>">
+                            <%=Escalate[i]%>
+                          </option>
+                          <%}%>
+                      </select>
+                    </div>
+                    <div class="invalid-feedback">Please enter complaint type</div>
+
+                  </div>
+                  <div class="row mb-3">
+                    <!-- <label class="col-sm-5 "></label> -->
+
+                    <div class="col-sm-3">
+                      <button type="submit" value="Send" class="btn btn-primary">Escalate</button>
+                    </div>
+                    <div class="col-sm-3">
+                      <a href="/approveComplaint?cid=<%=`${complaint.id}`%>"><button type="button"
+                          class="btn btn-primary">Approve</button></a>
+                    </div>
+                    <div class="col-sm-3">
+                      <a href="/rejectComplaint?cid=<%=`${complaint.id}`%>"><button type="button"
+                          class="btn btn-primary">Reject</button></a>
+                    </div>
+                    
+                  </div>
+                </form>
+              </div>
+            </div>
+
+          </div>
+          <!-- <section class="section">
+            <div class="row"> -->
+          <div class="col-lg-6">
+            <section style="background-color: #ffffff;">
+              <div class="container py-5">
+
+                <div class="row" style="overflow-y:scroll; height:400px">
+                  <div class="col-md-6 col-lg-7 col-xl-8">
+
+                    <ul class="centerlist-unstyled">
+
+                      <%for(var i=0;i< complaint.comments.length;i++){%>
+                        <li class="d-flex justify-content-between mb-6">
+                          <div class="card w-100">
+                            <div class="card-header d-flex justify-content-between p-3">
+                              <p class="fw-bold mb-0">
+                                <%=complaint.comments[i].uid%>
+                              </p>
+                              <%const dateObject=new Date(complaint.comments[i].time._seconds*1000)%>
+                                <%const date=dateObject.getDate();%>
+                                  <%const month=dateObject.getMonth() + 1;%>
+                                    <%const year=dateObject.getFullYear();%>
+                                      <p class="text-muted small mb-0"><i class="far fa-clock">
+                                          <%=`${date}-${month}-${year}`%>
+                                        </i> </p>
+                            </div>
+                            <div class="card-body">
+                              <p class="mb-0">
+                                <%=complaint.comments[i].comment%>
+                              </p>
+                            </div>
+                          </div>
+                          <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-5.webp" alt="avatar"
+                            class="rounded-circle d-flex align-self-start ms-3 shadow-1-strong" width="60">
+                        </li>
+                        <%}%>
+
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-left:20px; margin-right:20px">
+                <form action="/AddComment" method="post" class="row g-3 needs-validation" novalidate>
+                  <div class="col-12">
+                    <label for="yourUsername" class="form-label">Comment</label>
+                    <div class="input-group has-validation">
+
+                      <!-- changes made M-->
+                      <textarea class="form-control" id="textAreaExample2" name="comment" rows="4" required></textarea>
+                      <div class="invalid-feedback">Please enter your comment.</div>
+                    </div>
+                  </div>
+                  <input type="text" name="uid" value="<%=complaint.UID%>" hidden>
+                  <input type="text" name="cid" value="<%=cid%>" hidden>
+
+
+
+                  <div class="col-12">
+                    <button class="btn btn-primary w-100" type="submit" value="Send">send</button>
+                  </div>
+
+                </form>
+              </div>
+
+
+
+          </div>
+      </section>
+      </div>
+
+      </div>
+
+      </section>
+
+    </main><!-- End #main -->
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
+      <div class="copyright">
+        &copy; Copyright <strong><span>Yukti</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+
+        Designed by <a href="#">Team Yukti</a>
+      </div>
+    </footer><!-- End Footer -->
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/chart.js/chart.min.js"></script>
+    <script src="assets/vendor/echarts/echarts.min.js"></script>
+    <script src="assets/vendor/quill/quill.min.js"></script>
+    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script type="text/javascript">
+    $('#update-summary').on('click', function(e){
+      e.preventDefault();
+      var urlString = $(this).attr('href');
+      var complaint_id = "<%=complaint.id%>"
+      var summary = $("#summary").html()
+      console.log(complaint_id);
+      console.log(summary);
+      console.log(urlString);
+      var newURL = urlString + "?cid=" + complaint_id + "&summary="+summary;
+      window.open(newURL);
+    });
+    </script>
+
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
