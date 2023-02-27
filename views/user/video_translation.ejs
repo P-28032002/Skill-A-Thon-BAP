@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Search</title>
+  <title>Complaint Regsister</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -27,17 +27,12 @@
   <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  
 
 </head>
 
@@ -48,15 +43,16 @@
     <%- include('../common_scripts/chatbot')%>
 
       <!-- ======= Header ======= -->
+      <!-- ======= Header ======= -->
       <header id="header" class="header fixed-top d-flex align-items-center">
 
-        <div class="d-flex align-items-center justify-content-between">
-          <a href="/Dashboard" class="logo d-flex align-items-center">
-            <img src="assets/img/seekho.png" alt="">
-            <!-- <span class="d-block">Yukti</span> -->
-          </a>
-          <i class="bi bi-list toggle-sidebar-btn"></i>
-        </div><!-- End Logo -->
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="/Dashboard" class="logo d-flex align-items-center">
+        <img src="assets/img/seekho.png" alt="">
+        <!-- <span class="d-block">Yukti</span> -->
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
 
 
 
@@ -75,45 +71,7 @@
               </a>
               
 
-            </li><!-- End Notification Nav -->
-
-
-            <li class="nav-item dropdown">
-
-              <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-                <i class="bi bi-bell"></i>
-                <span class="badge bg-primary badge-number">
-                  <%= notifications.length %>
-                </span>
-              </a><!-- End Notification Icon -->
-
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-                <li class="dropdown-header">
-                  You have <%=notifications.length%> new notifications
-                    <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-                </li>
-                <% for(var i=0 ;i < notifications.length ; i++) { %>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-
-                  <li class="notification-item">
-                    <i class="bi bi-exclamation-circle text-warning"></i>
-                    <a href="/GetFullComplaint?cid=<%=complaints[i].cid%>">
-                      <div>
-                        <h4>New Message Received</h4>
-                        <p>Complaint with id: <%=notifications[i].cid%>
-                        </p>
-                        <p>has new messages.</p>
-                      </div>
-                    </a>
-                  </li>
-                  <% } %>
-
-              </ul><!-- End Notification Dropdown Items -->
-
-            </li><!-- End Notification Nav -->
-
+            </li>
             <li class="nav-item dropdown pe-3">
 
               <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
@@ -176,11 +134,11 @@
           </li><!-- End Dashboard Nav -->
 
           <li class="nav-item">
-            <a class="nav-link" href="/Search">
+            <a class="nav-link collapsed" href="/Search">
               <i class="bi bi-search"></i>
               <span>Search</span>
             </a>
-          </li><!-- End Login Page Nav -->
+          </li><!-- End Login Page Nav --><!-- End Login Page Nav -->
 
           <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
@@ -209,18 +167,8 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-              <i class="bi bi-menu-button-wide"></i><span>My Account</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="components-nav" class="nav-content collapse show " data-bs-parent="#sidebar-nav">
-              <li>
-                <a href="/ViewProfile">
-                  <i class="bi bi-circle"></i><span>View Profile</span>
-                </a>
-              </li>
+    
 
-            </ul>
           <li class="nav-item">
             <a class="nav-link collapsed" href="#">
               <i class="bi bi-translate"></i>
@@ -233,9 +181,6 @@
                   }
                 </script>
             </a>
-          </li>
-
-
           </li><!-- End Components Nav -->
         </ul>
 
@@ -244,87 +189,147 @@
 
       <main id="main" class="main">
 
-        <section class="section dashboard">
-          <div class="container">
-            <br/>
-          <div class="row justify-content-center">
-                                <div class="col-12 col-md-10 col-lg-8">
-                                    <form action="/submitQuery" method="POST" class="card card-sm">
-                                        <div class="card-body row no-gutters align-items-center">
-                                            <div class="col">
-                                                <input name ="searchquery" class="form-control form-control form-control-borderless" type="search" placeholder="Search topics or keywords">
-                                            </div>
-                                            <!--end of col-->
-                                            <div class="col-auto">
-                                                <button class="btn btn btn-primary" type="submit">Search</button>
-                                            </div>
-                                            <!--end of col-->
-                                        </div>
-                                    </form>
-                                </div>
-                                <!--end of col-->
-                            </div>
-        </div>
+        <div class="pagetitle">
+          <h1>Course Upload</h1>
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/uploadVideo">Upload Course</a></li>
+              <li class="breadcrumb-item active">Course Registration</li>
+            </ol>
+          </nav>
+        </div><!-- End Page Title -->
 
-          <!-- Code added for search code-->
+        <!--     end ------------------------------     -->
+        <section class="section">
           <div class="row">
             <div class="col-lg-12">
-                <div class="row">
-                    <div class="col-12">
-                        <%for(var i=0;i < course.length;i++){%>
-                        <form action="/SelectCourse" method="POST" enctype="json">
-                        <input type="text" hidden value="<%=course[i].id%>" name="course_id">
-                        <div class="card recent-sales overflow-auto">
-                          <!-- <h5 class="card-title">Search Result <%=i+1%></h5> -->
-                            <div class="card-body-even">
-                                <div class="card-body-img">
-                                    <img src="<%=course[i].thumbnail%>" alt="dummy" width="250px" height="250px">
-                                </div>
-                                <div style="height: 100%; width: 10%"></div>
-                                <div class="course-details">
-                                    <h3><%=course[i].name%></h3>
-                                    <p>
-                                     <%=course[i].description%>
-                                    </p>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <div class="row mb-3">
-                                      <div class="col-sm-10">
-                                        <button type="submit" class="btn btn-primary">View</a></button>
-                                      </div>
-                                  </div>
-                                </div>
-            
-                            </div>
+
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Course Details</h5>
+
+                  <!-- General Form Elements -->
+                  <form action="/VideoTranslation" class="needs-validation" method="post" enctype="multipart/form-data"
+                    novalidate>
+
+                      <div class="row mb-3">
+                        <label for="inputPassword" class="col-sm-2 col-form-label">Source Language</label>
+                        <div class="col-sm-10">
+                          <select name="language" id="language-select" class="form-select mt-2 p-2" aria-label="Default select example" style="width: 11rem" required>
+                            <option selected value="en-IN">English</option>
+                            <option value="bn-IN">Bengali</option>
+                            <option value="gu-IN">Gujarati</option>
+                            <option value="hi-IN">Hindi</option>
+                            <option value="kn-IN">Kannada</option>
+                            <option value="ml-IN">Malayalam</option>
+                            <option value="pa-IN">Punjabi</option>
+                            <option value="bn-IN">Bengali</option>
+                            <option value="ta-IN">Tamil</option>
+                            <option value="te-IN">Telugu</option>
+                          </select>
                         </div>
-                      </form>
-                        <%}%>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="inputPassword" class="col-sm-2 col-form-label">Target Language</label>
+                        <div class="col-sm-10">
+                          <select name="language" id="language-select" class="form-select mt-2 p-2" aria-label="Default select example" style="width: 11rem" required>
+                            <option selected value="en-IN">English</option>
+                            <option value="bn-IN">Bengali</option>
+                            <option value="gu-IN">Gujarati</option>
+                            <option value="hi-IN">Hindi</option>
+                            <option value="kn-IN">Kannada</option>
+                            <option value="ml-IN">Malayalam</option>
+                            <option value="pa-IN">Punjabi</option>
+                            <option value="bn-IN">Bengali</option>
+                            <option value="ta-IN">Tamil</option>
+                            <option value="te-IN">Telugu</option>
+                          </select>
+                        </div>
+                      </div>
+
+                    <div class="row mb-3">
+                      <label class="col-sm-2 col-form-label">Upload Video (.mp4)</label>
+                      <div class="col-sm-10">
+                        <input class="form-control" type="file" name="video_name" id="formFile" multiple>
+                      </div>
                     </div>
+
+                    <!-- <div class="g-recaptcha" data-sitekey="6LcfkqwhAAAAAEFUzywewTmPx5F4qE5uMGYadtbW"></div> -->
+                    <br/>
+                    
+                    <div class="row mb-3">
+                      <label for="inputNumber" class="col-sm-2 col-form-label"></label>
+                      <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary">Submit Form</button>
+                      </div>
+                    </div>
+                  </form><!-- End General Form Elements -->
                 </div>
+              </div>
+
             </div>
-          </div>
+
         </section>
+
 
       </main><!-- End #main -->
 
-      <!-- ======= Footer ======= -->
-      <footer id="footer" class="footer">
-        <div class="copyright">
-          &copy; Copyright <strong><span>Yukti</span></strong>. All Rights Reserved
-        </div>
-        <div class="credits">
 
-          Designed by <a href="#">Seekho</a>
-        </div>
-      </footer><!-- End Footer -->
 
       <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
           class="bi bi-arrow-up-short"></i></a>
 
       <!-- Vendor JS Files -->
+      <script type="text/javascript">
+        var recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = "en-IN";
+
+        var listening = false;
+
+        var final_transcript = '';
+        var interim_transcript = '';
+
+        recognition.onresult = function(event) {
+
+        // var final_transcript = document.getElementById('transcript').value;
+        // var interim_transcript = document.getElementById('transcript').value;
+        // document.getElementById('transcript').value='';
+          for (var i = event.resultIndex; i < event.results.length; ++i) {
+            if (event.results[i].isFinal) {
+              final_transcript += event.results[i][0].transcript;
+               document.getElementById('transcript').value = final_transcript;
+            } else {
+              interim_transcript += event.results[i][0].transcript;
+                  document.getElementById('transcript').value = interim_transcript;
+            }
+          }
+          interim_transcript = final_transcript+' ';
+          console.log(interim_transcript, final_transcript);
+
+        };
+
+        function toggle() {
+          recognition.lang = document.getElementById('language-select').value;
+          console.log(listening);
+        if(listening) {
+          recognition.stop();
+          listening = false;
+          // var tag = document.createElement("i");
+          // tag.setAttribute( 'class', 'bi bi-mic' );
+        document.getElementById('action').innerHTML = `Record Complaint <i class="bi bi-mic"></i>`;
+        }
+        else {
+          final_transcript = document.getElementById('transcript').value;
+          interim_transcript = document.getElementById('transcript').value+' ';
+          recognition.start();
+          listening = true;
+          document.getElementById('action').innerHTML = "Stop";
+        }
+        }
+      </script>
       <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
       <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
       <script src="assets/vendor/chart.js/chart.min.js"></script>

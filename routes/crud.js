@@ -6,7 +6,7 @@ const userRole = require('../isUser');
 const request = require('request');
 const sms = require('./sendSms');
 const sendemailto = require('./sendemail');
-const upload = require('./uploadFiles');
+const multer = require("multer");
 const fileUpload = require('express-fileupload')
 const fs = require('fs');
 
@@ -26,6 +26,12 @@ const firebaseConfig = {
   appId: "1:557774966085:web:8f977fc169e921b084422c",
   measurementId: "G-X2FWZB9LF4"
 };
+
+const { Configuration, OpenAIApi } = require('openai');
+const configuration = new Configuration({
+  apiKey: "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",
+});
+const openai = new OpenAIApi(configuration);
 
 var id="";
 
@@ -48,6 +54,7 @@ initializeApp({
 // var admin = require('firebase-admin')
 
 const db = getFirestore();
+const upload = multer({storage: multer.memoryStorage()});
 
 async function checkUserPresent(email, password) {
   console.log("Hello");
@@ -251,7 +258,6 @@ router.get('/Dashboard', async (req, res) => {
   var userinfo;
   var notifications = [];
   await db.collection("Users").doc(id).get().then((doc) => {
-    console.log(doc.data());
     userinfo = doc.data();
   });
 
@@ -265,6 +271,39 @@ router.get('/Dashboard', async (req, res) => {
     });
   })
 
+  var course_enrolled = [];
+  var courses_cnt = 0;
+  db.collection("User_courses").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      if(doc.data().User_id == id)
+      {
+        console.log(doc.data());
+        var docdata = { ...doc.data(), id: doc.id };
+        course_enrolled.push(docdata);
+      }
+    });
+  })
+
+  //course_cnt = course_enrolled.length;
+  //console.log(course_enrolled);
+  //console.log(courses_cnt);
+  // var course_info = [];
+  // for(var i = 0;i<course_enrolled.length;i++)
+  // {
+  //   var course_name;
+  //   await db.collection("Course").get().then((querySnapshot) => {
+  //     querySnapshot.forEach((doc) => {
+  //       if(doc.data().Course_id == course_enrolled[i].Course_id)
+  //       {
+  //         console.log(doc.data());
+  //         var docdata = { ...doc.data(), id: doc.id };
+  //         course_info.push(docdata);
+  //       }
+  //     });
+  //   });
+  // }
+
+  //console.log(course_info);
   var total_courses = course_data.length;
   var enrollments = 0;
   var graph_data = [];
@@ -283,7 +322,7 @@ router.get('/Dashboard', async (req, res) => {
   res.render('user/dashboard', {
     userData: userinfo, course_data: course_data,
     total_courses: total_courses, enrollments: enrollments,
-    enrollments_per_course: enrollments_per_course, graph_data: graph_data
+    enrollments_per_course: enrollments_per_course, graph_data: graph_data, 
   });
 
 })
@@ -517,6 +556,78 @@ router.get('/videoPlayer',async (req,res) => {
   })
   stream.pipe(res)
 })
+
+/********************************************
+ * Content Studio Start
+ ********************************************/
+router.post('/GenerateResponse', async (req,res) => {
+  console.log(req.body);
+  const question = req.body.question;
+  var response = await openai.createCompletion({
+    model: "text-davinci-003",
+    prompt: question,
+    max_tokens: 1000
+  });
+  response = response.data.choices[0].text;
+  console.log(response);
+  var userinfo;
+  await db.collection("Users").doc(id).get().then((doc) => {
+    console.log(doc.data());
+    userinfo = doc.data();
+  });
+  res.render('user/ContentGPT', { userData: userinfo, question: question, response: response });
+})
+
+router.get('/ContentGPT', async (req,res) => {
+  var userinfo;
+  await db.collection("Users").doc(id).get().then((doc) => {
+    console.log(doc.data());
+    userinfo = doc.data();
+  });
+  const question = "What is Python Programming ?";
+  const response = "Python is a high-level, interpreted, general-purpose programming language. It is an open source scripting language with easy to understand syntax and powerful libraries for data manipulation and analysis. Python can be used for web development, software development, mathematics, system scripting, and much more. Python is known for its readability and simple syntax which makes it easy to learn and use."
+  res.render('user/ContentGPT', { userData: userinfo, question: question, response: response });
+})
+
+router.get('/TextToSpeech', async (req,res) => {
+  var userinfo;
+  await db.collection("Users").doc(id).get().then((doc) => {
+    console.log(doc.data());
+    userinfo = doc.data();
+  });
+  res.render('user/text_to_speech', {userData: userinfo});
+})
+
+router.get('/VideoGeneration', async (req,res) => {
+  var userinfo;
+  await db.collection("Users").doc(id).get().then((doc) => {
+    console.log(doc.data());
+    userinfo = doc.data();
+  });
+  res.render('user/video_generation', { userData: userinfo });
+})
+
+router.get('/VideoTranslation', async (req,res) => {
+  var userinfo;
+  await db.collection("Users").doc(id).get().then((doc) => {
+    console.log(doc.data());
+    userinfo = doc.data();
+  });
+  res.render('user/video_translation', { userData: userinfo });
+})
+
+router.post('/VideoTranslation', upload.single('video_name'), async (req,res) => {
+  console.log(req.file);
+  const storageRef = storage.ref(req.file.originalname);
+  await storageRef.put(req.file.buffer, {
+    contentType: req.file.mimetype
+  })
+  const video_url = await storageRef.getDownloadURL()
+  console.log(video_url);
+})
+/********************************************
+ * Content Studio End
+ ********************************************/
 
 router.get('/OnboardAdmin', isLoggedIn, async (req, res) => {
   var ministries = [];

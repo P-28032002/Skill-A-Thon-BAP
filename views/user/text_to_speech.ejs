@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Dashboard</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <%- include('../common_scripts/zoom')%>
+  <%- include('../common_scripts/analytics')%>
+    <%- include('../common_scripts/chatbot')%>
+  <!-- <%- include('../common_scripts/chatbot')%> -->
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="/Desk1Dashboard" class="logo d-flex align-items-center">
+        <img src="assets/img/seekho.png" alt="">
+        <!-- <span class="d-block">Yukti</span> -->
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+
+        <li class="nav-item dropdown pe-3">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2"> <%=userData.name%></span>
+          </a><!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6><%=userData.name%></h6>
+
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="">
+                <i class="bi bi-person"></i>
+                <span>My Profile</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="/Logout">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="/Dashboard">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="/Search">
+          <i class="bi bi-search"></i>
+          <span>Search</span>
+        </a>
+      </li><!-- End Login Page Nav --><!-- End Error 404 Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-menu-button-wide"></i><span>Content Studio</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="components-nav" class="nav-content collapse show " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="/ContentGPT">
+              <i class="bi bi-circle"></i><span>Content GPT</span>
+            </a>
+          </li>
+          <li>
+            <a href="/TextToSpeech">
+              <i class="bi bi-circle"></i><span>Text to Speech</span>
+            </a>
+          </li>
+          <li>
+            <a href="/VideoGeneration">
+              <i class="bi bi-circle"></i><span>Video Generation</span>
+            </a>
+          </li>
+          <li>
+            <a href="/VideoTranslation">
+              <i class="bi bi-circle"></i><span>Video Translation</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#">
+          <i class="bi bi-translate"></i>
+          <%- include('../common_scripts/translate')%>
+            <button class="btn btn-primary btn-sm" onclick="clearCookie()">original</button>
+            <script>
+              function clearCookie() {
+                document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                location.reload();
+              }
+            </script>
+        </a>
+      </li>
+    </ul>
+
+  </aside><!-- End Sidebar-->
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Speech Synthesis</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/uploadVideo">Text to Speech</a></li>
+            <li class="breadcrumb-item active">Text to Speech</li>
+          </ol>
+        </nav>
+      </div><!-- End Page Title -->
+
+      <!--     end ------------------------------     -->
+      <section class="section">
+        <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Synthesizer</h5>
+
+              <!-- General Form Elements -->
+              <form action="/GenerateResponse" method="post" enctype="json" novalidate>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Enter Text</label>
+                    <div class="col-sm-10">
+                      <textarea name="response" id="transcript"  class="txt form-control"
+                        style="height: 200px"></textarea>
+                        
+                    </div>
+                  </div>
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Rate</label>
+                  <div class="col-sm-10">
+                    <input type="range" min="0.5" max="2" value="1" step="0.1" id="rate" class="form-control"/>
+                    <!-- <input name="question" id="" placeholder="What is Python Programming ? "class="form-control"
+                      required> -->
+                  </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Pitch</label>
+                    <div class="col-sm-10">
+                      <input type="range" min="0.5" max="2" value="1" step="0.1" id="pitch" class="form-control"/>
+                      <!-- <input name="question" id="" placeholder="What is Python Programming ? "class="form-control"
+                        required> -->
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                      <select name="" id="" class="form-control"></select>
+                    </div>
+                  </div>
+                <div class="row mb-3">
+                  <label for="inputNumber" class="col-sm-2 col-form-label"></label>
+                  <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </div>
+                
+              </form><!-- End General Form Elements -->
+            </div>
+          </div>
+      </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>Yukti</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+
+      Designed by <a href="#">Seekho</a>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <script>
+    const synth = window.speechSynthesis;
+
+    const inputForm = document.querySelector('form');
+    const inputTxt = document.querySelector('.txt');
+    const voiceSelect = document.querySelector('select');
+
+    const pitch = document.querySelector('#pitch');
+    const pitchValue = document.querySelector('.pitch-value');
+    const rate = document.querySelector('#rate');
+    const rateValue = document.querySelector('.rate-value');
+
+    let voices = [];
+    populateVoiceList();
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+        speechSynthesis.onvoiceschanged = populateVoiceList;
+    }
+    function populateVoiceList() {
+        voices = synth.getVoices();
+
+        for (const voice of voices) {
+            const option = document.createElement('option');
+            option.textContent = `${voice.name} (${voice.lang})`;
+
+            if (voice.default) {
+            option.textContent += ' — DEFAULT';
+            }
+
+            option.setAttribute('data-lang', voice.lang);
+            option.setAttribute('data-name', voice.name);
+            voiceSelect.appendChild(option);
+        }
+    }
+
+    inputForm.onsubmit = (event) => {
+    event.preventDefault();
+
+    const utterThis = new SpeechSynthesisUtterance(inputTxt.value);
+    const selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
+    for (const voice of voices) {
+        if (voice.name === selectedOption) {
+            utterThis.voice = voice;
+        }
+        }
+        utterThis.pitch = pitch.value;
+        utterThis.rate = rate.value;
+        synth.speak(utterThis);
+
+        utterThis.onpause = (event) => {
+            const char = event.utterance.text.charAt(event.charIndex);
+            console.log(
+            `Speech paused at character ${event.charIndex} of "${event.utterance.text}", which is "${char}".`
+            );
+        }
+        inputTxt.blur();
+    }
+  </script>
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.min.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
