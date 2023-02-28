@@ -46,6 +46,7 @@ router.post('/Login', async (req, res) => {
         //console.log(store('email'));
         res.redirect('/Dashboard');
     }
+    else res.redirect('/Signup');
 })
 
 // function errorinLogin(res) {
